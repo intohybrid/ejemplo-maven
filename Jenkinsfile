@@ -5,6 +5,14 @@ def jsonParse(def json) {
 pipeline {
     agent any
     stages {
+        stage("Paso 0: Instalar Maven"){
+            steps {
+               script {
+                   //Puede que falle por permisos
+                sh "apt-get update&& apt-get install -y  maven"
+                }
+            }
+        }
         stage("Paso 1: Download and checkout"){
             steps {
                checkout(
