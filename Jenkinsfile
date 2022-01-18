@@ -5,17 +5,6 @@ def jsonParse(def json) {
 pipeline {
     agent any
     stages {
-        stage("Paso 1: Run SonarQube"){
-            steps {
-                script {
-                sh "echo 'Run SonarQube!'"
-                sh "mvn verify sonar:sonar \
-                    -Dsonar.projectKey=ejemplo-maven \
-                    -Dsonar.host.url=http://sonarqube:9000 \
-                    -Dsonar.login=48b437692f02f70d38420ef42f7a99c203613c7f"
-                }
-            }
-        }
         stage('SonarQube analysis') {
             steps {
                 withSonarQubeEnv(credentialsId: '48b437692f02f70d38420ef42f7a99c203613c7f', installationName: 'SonarQube') { // You can override the credential to be used
