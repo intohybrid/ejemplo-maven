@@ -17,4 +17,11 @@ class DevOpsUsach2020ApplicationTests {
         assertEquals("Mensaje Recibido: HOLA devops", response.getMensaje());
     }
 
+
+    @Test
+    void test2() {
+        String texto = "texto";
+        assertEquals("texto", texto);
+    }
+
 }

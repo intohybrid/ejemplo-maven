@@ -5,15 +5,18 @@ def jsonParse(def json) {
 pipeline {
     agent any
     stages {
-        stage("Paso 1: Download and checkout"){
+        stage("Paso 1: Run SonarQube"){
             steps {
-               checkout(
-                        [$class: 'GitSCM',
-                        branches: [[name: "jenkins-pipeline-as-code" ]],
-                        userRemoteConfigs: [[url: 'https://github.com/intohybrid/ejemplo-maven']]])
+                script {
+                sh "echo 'Run SonarQube!'"
+                sh "mvn verify sonar:sonar \
+                    -Dsonar.projectKey=ejemplo-maven \
+                    -Dsonar.host.url=http://sonarqube:9000 \
+                    -Dsonar.login=48b437692f02f70d38420ef42f7a99c203613c7f"
+                }
             }
         }
-        stage("Paso 2: Compliar"){
+        stage("Paso 2: Compilar"){
             steps {
                 script {
                 sh "echo 'Compile Code!'"
