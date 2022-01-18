@@ -5,10 +5,10 @@ def jsonParse(def json) {
 pipeline {
     agent any
     stages {
-        stage('SonarQube analysis') {
+        stage("Paso 1: Nada"){
             steps {
-                withSonarQubeEnv(credentialsId: 'tokensonarqubekenkins', installationName: 'SonarQubeServer') { // You can override the credential to be used
-                    sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar'
+                script {
+                sh "echo 'Por ahora...nada!'"
                 }
             }
         }
@@ -36,6 +36,13 @@ pipeline {
                 sh "echo 'Build .Jar!'"
                 // Run Maven on a Unix agent.
                 sh "mvn clean package -e"
+                }
+            }
+        }
+         stage('SonarQube analysis') {
+            steps {
+                withSonarQubeEnv(credentialsId: 'tokensonarqubekenkins', installationName: 'SonarQubeServer') { // You can override the credential to be used
+                    sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar'
                 }
             }
         }
