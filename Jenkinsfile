@@ -5,6 +5,16 @@ def jsonParse(def json) {
 pipeline {
     agent any
     stages {
+        
+        stage("Paso 4: Build .Jar"){
+            steps {
+                script {
+                sh "echo 'Build .Jar!'"
+                // Run Maven on a Unix agent.
+                sh "mvn clean package -e"
+                }
+            }
+        }
         stage("Paso 2: Análisis SonarQub"){
             steps {
                 withSonarQubeEnv('SonarQubeServer') {
