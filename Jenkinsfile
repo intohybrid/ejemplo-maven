@@ -9,7 +9,8 @@ pipeline {
             steps {
                 script {
                 sh "echo 'Compile Code!'"
-                // Run Maven on a Unix agent.
+                // Super compilacion
+            
                 sh "mvn clean compile -e"
                 }
             }
