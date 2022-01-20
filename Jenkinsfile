@@ -49,7 +49,7 @@ pipeline {
         }
         stage("Paso 5: Levantar Springboot APP"){
             steps {
-                sh 'mvn spring-boot:run &'
+                sh 'mvn spring-boot:start &'
             }
         }
         stage("Paso 6: Dormir(Esperar 10sg) "){
