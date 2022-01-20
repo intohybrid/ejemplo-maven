@@ -62,6 +62,11 @@ pipeline {
                 sh 'curl -X GET "http://localhost:8081/rest/mscovid/test?msg=testing"'
             }
         }
+        stage("Paso 8: Stop"){
+            steps {
+                sh 'mvn spring-boot:stop'
+            }
+        }
     }
     post {
         always {
