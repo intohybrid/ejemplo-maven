@@ -9,8 +9,7 @@ pipeline {
             steps {
                 script {
                 sh "echo 'Compile Code!'"
-                // Super compilacion
-            
+                // Run Maven on a Unix agent.
                 sh "mvn clean compile -e"
                 }
             }
@@ -20,7 +19,7 @@ pipeline {
                 script {
                 sh "echo 'Test Code!'"
                 // Run Maven on a Unix agent.
-                sh "mvn test -e"
+                sh "mvn clean test -e"
                 }
             }
         }
@@ -29,7 +28,7 @@ pipeline {
                 script {
                 sh "echo 'Build .Jar!'"
                 // Run Maven on a Unix agent.
-                sh "mvn package -e"
+                sh "mvn clean package -e"
                 }
             }
             post {
@@ -44,8 +43,23 @@ pipeline {
                 withSonarQubeEnv('SonarQubeServer') {
                     sh "echo 'Calling sonar Service in another docker container!'"
                     // Run Maven on a Unix agent to execute Sonar.
-                    sh 'mvn verify sonar:sonar'
+                    sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=githubfull'
                 }
+            }
+        }
+        stage("Paso 5: Levantar Springboot APP"){
+            steps {
+                sh 'mvn spring-boot:run &'
+            }
+        }
+        stage("Paso 6: Dormir(Esperar 10sg) "){
+            steps {
+                sh 'sleep 10'
+            }
+        }
+        stage("Paso 7: Test Alive Service - Testing Application!"){
+            steps {
+                sh 'curl -X GET "http://localhost:8081/rest/mscovid/test?msg=testing"'
             }
         }
     }
