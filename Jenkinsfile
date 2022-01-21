@@ -12,7 +12,9 @@ pipeline {
         stage("0: validate"){
             when { 
                 expression { 
-                    return !BRANCH_NAME ==~ /featuasdre\/[0-9]+\.[0-9]+\.[0-9]+/ 
+                    isRelease = env.BRANCH_NAME !=~ /feature*)/
+                    echo "isRelease : ${isRelease}"
+                    return isRelease isRelease
                     }
                 }
             steps {
