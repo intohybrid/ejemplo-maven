@@ -93,6 +93,7 @@ pipeline {
             //métodos y mostrar los resultados.
             steps {
                 script {
+                sh "echo 'Test'"
                 //sh 'sleep 60'
                 //sh 'curl -X GET "http://localhost:8081/rest/mscovid/test?msg=testing"'
                 }
