@@ -1,52 +1,18 @@
 pipeline {
     agent any
+    // parameters {
+    //     string(name: 'ENV', defaultValue: 'dev', description: 'Parametro con ambiente de despliegue')
+
+    // }
+
     stages {
         stage("-1: logs"){
             steps {
-                sh "echo 'git branch: '" + GIT_BRANCH
                 sh "echo 'branchname: '" + BRANCH_NAME
                 sh 'printenv'
             }
         }
-        // stage("0: validate"){
-        //     //validaciones iniciales
-        //     // expresion regular solicitada release-v\d+-\d+-\d+
-        //     // tambien validar que no ejecute en master
-
-        //     when {
-        //         anyOf {
-        //             not { expression { BRANCH_NAME ==~ /feature\/.*/ } }
-        //                   expression { BRANCH_NAME == 'master' }
-        //                   expression { fileExists ('pom.xml') }
-        //         }
-                
-        //     }
-        //     steps {
-        //         sh "echo  'nombre invalido'"
-        //         script{
-        //             error("Invalid Branch")
-        //         }   
-        //     }
-        // }
-        stage("01: validate"){
-            //validaciones iniciales
-            // expresion regular solicitada release-v\d+-\d+-\d+
-            // tambien validar que no ejecute en master
-
-            when {
-                anyOf {
-                    not { expression { BRANCH_NAME ==~ /feature\/.*/ } }
-                }
-                
-            }
-            steps {
-                sh "echo  'nombre invalido'"
-                script{
-                    error("Invalid Branch Name")
-                }   
-            }
-        }
-        stage("02: validate"){
+        stage("01: Validate Not Master Executions"){
             //validaciones iniciales
             // expresion regular solicitada release-v\d+-\d+-\d+
             // tambien validar que no ejecute en master
@@ -54,39 +20,60 @@ pipeline {
             when {
                 anyOf {
                           expression { BRANCH_NAME == 'master' }
+                          expression { BRANCH_NAME == 'main' }
                 }
                 
             }
             steps {
-                sh "echo  'nombre invalido'"
+                sh "echo  'Rama invalida'"
                 script{
                     error("Invalid Branch Name" + BRANCH_NAME )
                 }   
             }
         }
-        stage("03: validate"){
+        stage("02: Validate Branch Name"){
             //validaciones iniciales
             // expresion regular solicitada release-v\d+-\d+-\d+
-            // tambien validar que no ejecute en master
 
+            //Validar el tipo de rama a ejecutar (feature, develop o release)
+            
             when {
                 anyOf {
-                          not { expression { fileExists ('pom.xml') }}
+                    expression { BRANCH_NAME ==~ /feature\/.*/ }
+                    expression { BRANCH_NAME ==~ /develop\/.*/ }
+                    expression { BRANCH_NAME ==~ /release\/.*/ }
                 }
                 
             }
             steps {
-                sh "echo  'Falta el archivo POM!!!'"
+                sh "echo  'Nombre Rama Invalido'"
                 script{
-                    error("file dont exist :(")
+                    error("Invalid Branch Name" + BRANCH_NAME)
                 }   
             }
         }
+
+        stage("03: Validate Maven Files"){
+            when {
+                anyOf {
+                          not { expression { fileExists ('pom.xml') }}
+                          not { expression { fileExists ('mvnw') }}
+                }
+                
+            }
+            steps {
+                sh "echo  'Faltan archivos Maven en su estructura'"
+                script{
+                    error("file dont exist :( ")
+                }   
+            }
+        }
+        
         stage("1: Compile"){
             when {
                 branch 'development' 
             }
-        //- Compilar el código con comando maven
+            //- Compilar el código con comando maven
             steps {
                 script {
                 sh "echo 'Compile Code!'"
