@@ -12,7 +12,7 @@ pipeline {
         stage("0: validate"){
             when { 
                 expression { 
-                    return BRANCH_NAME ==~ /feature\/[0-9]+\.[0-9]+\.[0-9]+/ 
+                    return !BRANCH_NAME ==~ /feature\/[0-9]+\.[0-9]+\.[0-9]+/ 
                     }
                 }
             steps {
