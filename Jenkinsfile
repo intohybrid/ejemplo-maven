@@ -5,16 +5,21 @@ pipeline {
             steps {
                 sh "echo 'git branch: '" + GIT_BRANCH
                 sh "echo 'branchname: '" + BRANCH_NAME
-                sh "echo 'targetEnv: '" + params.targetEnv
                 sh 'printenv'
             }
         }
         stage("0: validate"){
             //validaciones iniciales
             // expresion regular solicitada release-v\d+-\d+-\d+
+            // tambien validar que no ejecute en master
 
             when {
-                expression { !BRANCH_NAME ==~ /feature\/.*/ }
+                anyOf {
+                    not { expression { BRANCH_NAME ==~ /feature\/.*/ } }
+                          expression { BRANCH_NAME == 'master' }
+                          expression { fileExists ('pom.xml') }
+                }
+                
             }
             steps {
                 sh "echo  'nombre invalido'"
@@ -61,7 +66,7 @@ pipeline {
         }
         stage("4: SonarQube"){
         //- Generar análisis con sonar para cada ejecución
-        //- Cada ejecución debe tener el siguiente formato de nombre:
+        //- Cada ejecución debe tener el siguiente formato de nombre: QUE ES EL NOMBRE DE EJECUCIÓN ??
             //- {nombreRepo}-{rama}-{numeroEjecucion} ejemplo:
             //- ms-iclab-feature-estadomundial(Si está usando el CRUD ms-iclab-feature-[nombre de su crud])
 
