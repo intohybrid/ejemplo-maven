@@ -84,6 +84,7 @@ pipeline {
             //- Ejecutar artefacto descargado.
             steps {
                 script {
+                sh "echo 'run'"
                 //sh 'mvn spring-boot:run &'
                 }
             }
