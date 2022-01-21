@@ -3,10 +3,18 @@ pipeline {
     stages {
         stage("0: validate"){
             steps {
-                sh "echo 'git branch'" + GIT_BRANCH
-                sh "echo 'branchname'" + BRANCH_NAME
+                sh "echo 'git branch: '" + GIT_BRANCH
+                sh "echo 'branchname: '" + BRANCH_NAME
+                sh "echo 'targetEnv: '" + params.targetEnv
+
+
+                if (!BRANCH_NAME ==~ /feature\/[0-9]+\.[0-9]+\.[0-9]+/ ) {
+                    currentBuild.result = 'ABORTED'
+                    error('Stopping early…')
+                }
+                
                 when { 
-                expression { GIT_BRANCH ==~ /feature\/[0-9]+\.[0-9]+\.[0-9]+/ }
+                expression { BRANCH_NAME ==~ /feature\/[0-9]+\.[0-9]+\.[0-9]+/ }
                     sh "si cumple"
                 }
             }
