@@ -11,7 +11,7 @@ pipeline {
         }
         stage("0: validate"){
             when {
-                expression { BRANCH_NAME ==~ /feature/.+/ }
+                expression { BRANCH_NAME ==~ /feature\/.*/ }
             }
             steps {
                 echo 'Deploying'
