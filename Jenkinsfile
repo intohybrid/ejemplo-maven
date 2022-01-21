@@ -14,7 +14,7 @@ pipeline {
                 expression { 
                     isRelease = env.BRANCH_NAME !=~ /feature*)/
                     echo "isRelease : ${isRelease}"
-                    return isRelease isRelease
+                    return isRelease
                     }
                 }
             steps {
