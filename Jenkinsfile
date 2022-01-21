@@ -10,8 +10,11 @@ pipeline {
             }
         }
         stage("0: validate"){
+            //validaciones iniciales
+            // expresion regular solicitada release-v\d+-\d+-\d+
+
             when {
-                expression { BRANCH_NAME ==~ /feature\/.*/ }
+                expression { !BRANCH_NAME ==~ /feature\/.*/ }
             }
             steps {
                 sh "echo  'nombre invalido'"
