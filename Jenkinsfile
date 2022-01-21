@@ -2,6 +2,7 @@ pipeline {
     agent any
     stages {
         stage("1: Compile"){
+        //- Compilar el código con comando maven
             steps {
                 script {
                 sh "echo 'Compile Code!'"
@@ -11,6 +12,7 @@ pipeline {
             }
         }
         stage("2: Unit Test"){
+        //- Testear el código con comando maven
             steps {
                 script {
                 sh "echo 'Test Code!'"
@@ -20,6 +22,7 @@ pipeline {
             }
         }
         stage("3: Build jar"){
+        //- Generar artefacto del código compilado.
             steps {
                 script {
                 sh "echo 'Build .Jar!'"
@@ -29,58 +32,110 @@ pipeline {
             }
         }
         stage("4: SonarQube"){
+        //- Generar análisis con sonar para cada ejecución
+        //- Cada ejecución debe tener el siguiente formato de nombre:
+            //- {nombreRepo}-{rama}-{numeroEjecucion} ejemplo:
+            //- ms-iclab-feature-estadomundial(Si está usando el CRUD ms-iclab-feature-[nombre de su crud])
+
             steps {
                 withSonarQubeEnv('SonarQubeServer') {
                     sh "echo 'SonarQube'"
-                    // Run Maven on a Unix agent to execute Sonar.
                     //sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=githubfull'
                 }
             }
         }
         stage("5: Nexus Upload"){
+        //- Subir el artefacto creado al repositorio privado de Nexus.
+        //- Ejecutar este paso solo si los pasos anteriores se ejecutan de manera correcta.
             steps {
                 script {
                 sh "echo 'Nexus Upload'"
-                // Run Maven on a Unix agent.
-                //sh "mvn clean test -e"
                 }
             }
         }
         stage("6: gitCreateRelease"){
+        //- Crear rama release cuando todos los stages anteriores estén correctamente ejecutados.
+        //- Este stage sólo debe estar disponible para la rama develop.
             steps {
                 script {
                 sh "echo 'gitCreateRelease'"
-                // Run Maven on a Unix agent.
-                //sh "mvn clean test -e"
                 }
             }
         }
-        // stage("Paso 5: Levantar Springboot APP"){
-        //     steps {
-        //         sh 'mvn spring-boot:run &'
-        //     }
-        // }
-        // stage("Paso 6: Dormir(Esperar 10sg) "){
-        //     steps {
-        //         sh 'sleep 60'
-        //     }
-        // }
-        // stage("Paso 7: Test Alive Service - Testing Application!"){
-        //     steps {
-        //         sh 'curl -X GET "http://localhost:8081/rest/mscovid/test?msg=testing"'
-        //     }
-        // }
+        ///////Despliegue continuo
+        stage("7: gitDiff"){
+            //- Mostrar por pantalla las diferencias entre la rama release en curso y la rama
+            //master.(Opcional)
+            steps {
+                script {
+                sh "echo 'gitDiff'"
+                }
+            }
+        }
+        stage("8: nexusDownload"){
+            //- Descargar el artefacto creado al workspace de la ejecución del pipeline.
+            steps {
+                script {
+                sh "echo 'nexusDownload'"
+                }
+            }
+        }
+        stage("9: run"){
+            //- Ejecutar artefacto descargado.
+            steps {
+                script {
+                //sh 'mvn spring-boot:run &'
+                }
+            }
+        }
+        stage("9: test"){
+            //- Realizar llamado a microservicio expuesto en local para cada uno de sus
+            //métodos y mostrar los resultados.
+            steps {
+                script {
+                //sh 'sleep 60'
+                //sh 'curl -X GET "http://localhost:8081/rest/mscovid/test?msg=testing"'
+                }
+            }
+        }
+        stage("9: gitMergeMaster"){
+            //- Realizar merge directo hacia la rama master.
+            //- Ejecutar sólo si todo lo demás resulta de forma exitosa.
 
+            steps {
+                script {
+                sh "echo 'gitMergeMaster'"
+                }
+            }
+        }
+        stage("10: gitMergeDevelop"){
+            //- Realizar merge directo hacia rama develop.
+            //- Ejecutar sólo si todo lo demás resulta de forma exitosa
+            steps {
+                script {
+                sh "echo 'gitMergeDevelop'"
+                }
+            }
+        }
+        stage("11: gitTagMaster"){
+            //- Crear tag de rama release en rama master.
+            //- Ejecutar sólo si todo lo demás resulta de forma exitosa.
+            steps {
+                script {
+                sh "echo 'gitTagMaster'"
+                }
+            }
+        }
     }
     post {
         always {
-            sh "echo 'fase always executed post'"
+            sh "echo 'Siempre se ejecuta'"
         }
         success {
-            sh "echo 'fase success'"
+            sh "echo 'Solo en caso de exito'"
         }
         failure {
-            sh "echo 'fase failure'"
+            sh "echo 'Solo en caso de error'"
         }
     }
 }
