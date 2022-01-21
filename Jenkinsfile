@@ -10,7 +10,7 @@ pipeline {
         }
         stage("0: validate"){
             when { 
-                expression { BRANCH_NAME ==~ /feature\/[0-9]+\.[0-9]+\.[0-9]+/ }
+                expression { !BRANCH_NAME ==~ /feature\/[0-9]+\.[0-9]+\.[0-9]+/ }
                 }
             steps {
                 // Abort the build, skipping subsequent stages
