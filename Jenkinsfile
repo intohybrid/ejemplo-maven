@@ -11,7 +11,6 @@ pipeline {
         stage("0: validate"){
             when { 
                 expression { BRANCH_NAME ==~ /feature\/[0-9]+\.[0-9]+\.[0-9]+/ }
-                    sh "No cumple"
                 }
             steps {
                 // Abort the build, skipping subsequent stages
