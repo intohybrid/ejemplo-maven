@@ -6,11 +6,14 @@ pipeline {
                 sh "echo 'git branch: '" + GIT_BRANCH
                 sh "echo 'branchname: '" + BRANCH_NAME
                 sh "echo 'targetEnv: '" + params.targetEnv
+                sh 'printenv'
             }
         }
         stage("0: validate"){
             when { 
-                expression { !BRANCH_NAME ==~ /feature\/[0-9]+\.[0-9]+\.[0-9]+/ }
+                expression { 
+                    return BRANCH_NAME ==~ /feature\/[0-9]+\.[0-9]+\.[0-9]+/ 
+                    }
                 }
             steps {
                 // Abort the build, skipping subsequent stages
