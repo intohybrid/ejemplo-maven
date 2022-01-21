@@ -1,67 +1,75 @@
-import groovy.json.JsonSlurperClassic
-def jsonParse(def json) {
-    new groovy.json.JsonSlurperClassic().parseText(json)
-}
 pipeline {
     agent any
     stages {
-        stage("Paso 1: Compliar"){
+        stage("1: Compile"){
             steps {
                 script {
                 sh "echo 'Compile Code!'"
                 // Run Maven on a Unix agent.
-                sh "mvn clean compile -e"
+                //sh "mvn clean compile -e"
                 }
             }
         }
-        stage("Paso 2: Testear"){
+        stage("2: Unit Test"){
             steps {
                 script {
                 sh "echo 'Test Code!'"
                 // Run Maven on a Unix agent.
-                sh "mvn clean test -e"
+                //sh "mvn clean test -e"
                 }
             }
         }
-        stage("Paso 3: Build .Jar"){
+        stage("3: Build jar"){
             steps {
                 script {
                 sh "echo 'Build .Jar!'"
                 // Run Maven on a Unix agent.
-                sh "mvn clean package -e"
-                }
-            }
-            post {
-                //record the test results and archive the jar file.
-                success {
-                    archiveArtifacts artifacts:'build/*.jar'
+                //sh "mvn clean package -e"
                 }
             }
         }
-        stage("Paso 4: Análisis SonarQube"){
+        stage("4: SonarQube"){
             steps {
                 withSonarQubeEnv('SonarQubeServer') {
-                    sh "echo 'Calling sonar Service in another docker container!'"
+                    sh "echo 'SonarQube'"
                     // Run Maven on a Unix agent to execute Sonar.
-                    sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=githubfull'
+                    //sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=githubfull'
                 }
             }
         }
-        stage("Paso 5: Levantar Springboot APP"){
+        stage("5: Nexus Upload"){
             steps {
-                sh 'mvn spring-boot:run &'
+                script {
+                sh "echo 'Nexus Upload'"
+                // Run Maven on a Unix agent.
+                //sh "mvn clean test -e"
+                }
             }
         }
-        stage("Paso 6: Dormir(Esperar 10sg) "){
+        stage("6: gitCreateRelease"){
             steps {
-                sh 'sleep 60'
+                script {
+                sh "echo 'gitCreateRelease'"
+                // Run Maven on a Unix agent.
+                //sh "mvn clean test -e"
+                }
             }
         }
-        stage("Paso 7: Test Alive Service - Testing Application!"){
-            steps {
-                sh 'curl -X GET "http://localhost:8081/rest/mscovid/test?msg=testing"'
-            }
-        }
+        // stage("Paso 5: Levantar Springboot APP"){
+        //     steps {
+        //         sh 'mvn spring-boot:run &'
+        //     }
+        // }
+        // stage("Paso 6: Dormir(Esperar 10sg) "){
+        //     steps {
+        //         sh 'sleep 60'
+        //     }
+        // }
+        // stage("Paso 7: Test Alive Service - Testing Application!"){
+        //     steps {
+        //         sh 'curl -X GET "http://localhost:8081/rest/mscovid/test?msg=testing"'
+        //     }
+        // }
 
     }
     post {
