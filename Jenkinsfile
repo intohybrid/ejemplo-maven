@@ -11,11 +11,7 @@ pipeline {
         }
         stage("0: validate"){
             when { 
-                expression { 
-                    isRelease = BRANCH_NAME ==~ /feature*/
-                    echo "isRelease :" + ${isRelease}
-                    return isRelease
-                    }
+                expression { BRANCH_NAME ==~ /feature*/ }
                 }
             steps {
                 // Abort the build, skipping subsequent stages
