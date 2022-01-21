@@ -14,8 +14,8 @@ pipeline {
                 expression { BRANCH_NAME ==~ /feature\/.*/ }
             }
             steps {
-                echo 'Deploying'
                 sh "echo  'nombre invalido'"
+                error("Invalid Branch")
             }
 
         }
