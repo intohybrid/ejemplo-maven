@@ -12,11 +12,12 @@ pipeline {
         stage("0: validate"){
             when { 
                 expression { 
-                    return !BRANCH_NAME ==~ /feature\/[0-9]+\.[0-9]+\.[0-9]+/ 
+                    return !BRANCH_NAME ==~ /featuasdre\/[0-9]+\.[0-9]+\.[0-9]+/ 
                     }
                 }
             steps {
                 // Abort the build, skipping subsequent stages
+                sh "echo  'nombre invalido'"
                  error("Invalid Name")
             } 
         }
