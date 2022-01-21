@@ -71,12 +71,12 @@ pipeline {
 
             when {
                 anyOf {
-                          expression { fileExists ('pom.xml') }
+                          not { expression { fileExists ('pom.xml') }}
                 }
                 
             }
             steps {
-                sh "echo  'existe archivo ??'"
+                sh "echo  'Falta el archivo POM!!!'"
                 script{
                     error("file dont exist :(")
                 }   
