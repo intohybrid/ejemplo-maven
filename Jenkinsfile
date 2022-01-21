@@ -12,8 +12,8 @@ pipeline {
         stage("0: validate"){
             when { 
                 expression { 
-                    isRelease = env.BRANCH_NAME ==~ /feature*/
-                    echo "isRelease : ${isRelease}"
+                    isRelease = BRANCH_NAME ==~ /feature*/
+                    echo "isRelease :" + ${isRelease}
                     return isRelease
                     }
                 }
