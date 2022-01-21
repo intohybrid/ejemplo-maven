@@ -8,7 +8,27 @@ pipeline {
                 sh 'printenv'
             }
         }
-        stage("0: validate"){
+        // stage("0: validate"){
+        //     //validaciones iniciales
+        //     // expresion regular solicitada release-v\d+-\d+-\d+
+        //     // tambien validar que no ejecute en master
+
+        //     when {
+        //         anyOf {
+        //             not { expression { BRANCH_NAME ==~ /feature\/.*/ } }
+        //                   expression { BRANCH_NAME == 'master' }
+        //                   expression { fileExists ('pom.xml') }
+        //         }
+                
+        //     }
+        //     steps {
+        //         sh "echo  'nombre invalido'"
+        //         script{
+        //             error("Invalid Branch")
+        //         }   
+        //     }
+        // }
+        stage("01: validate"){
             //validaciones iniciales
             // expresion regular solicitada release-v\d+-\d+-\d+
             // tambien validar que no ejecute en master
@@ -16,15 +36,49 @@ pipeline {
             when {
                 anyOf {
                     not { expression { BRANCH_NAME ==~ /feature\/.*/ } }
-                          expression { BRANCH_NAME == 'master' }
-                          expression { fileExists ('pom.xml') }
                 }
                 
             }
             steps {
                 sh "echo  'nombre invalido'"
                 script{
-                    error("Invalid Branch")
+                    error("Invalid Branch Name")
+                }   
+            }
+        }
+        stage("02: validate"){
+            //validaciones iniciales
+            // expresion regular solicitada release-v\d+-\d+-\d+
+            // tambien validar que no ejecute en master
+
+            when {
+                anyOf {
+                          expression { BRANCH_NAME == 'master' }
+                }
+                
+            }
+            steps {
+                sh "echo  'nombre invalido'"
+                script{
+                    error("Invalid Branch Name" + BRANCH_NAME )
+                }   
+            }
+        }
+        stage("03: validate"){
+            //validaciones iniciales
+            // expresion regular solicitada release-v\d+-\d+-\d+
+            // tambien validar que no ejecute en master
+
+            when {
+                anyOf {
+                          expression { fileExists ('pom.xml') }
+                }
+                
+            }
+            steps {
+                sh "echo  'existe archivo ??'"
+                script{
+                    error("file dont exist :(")
                 }   
             }
         }
