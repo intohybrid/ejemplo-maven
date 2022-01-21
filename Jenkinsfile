@@ -1,17 +1,25 @@
 pipeline {
     agent any
     stages {
-        stage("0: validate"){
+        stage("-1: logs"){
             steps {
                 sh "echo 'git branch: '" + GIT_BRANCH
                 sh "echo 'branchname: '" + BRANCH_NAME
                 sh "echo 'targetEnv: '" + params.targetEnv
 
-                when { 
-                expression { BRANCH_NAME ==~ /feature\/[0-9]+\.[0-9]+\.[0-9]+/ }
-                    sh "si cumple"
+                 sh "si cumple"
                 }
             }
+        }
+        stage("0: validate"){
+            when { 
+                expression { BRANCH_NAME ==~ /feature\/[0-9]+\.[0-9]+\.[0-9]+/ }
+                    sh "No cumple"
+                }
+            steps {
+                // Abort the build, skipping subsequent stages
+                 error("Invalid Name")
+            } 
         }
         stage("1: Compile"){
             when {
