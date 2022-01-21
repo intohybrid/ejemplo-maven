@@ -15,9 +15,10 @@ pipeline {
             }
             steps {
                 sh "echo  'nombre invalido'"
-                error("Invalid Branch")
+                script{
+                    error("Invalid Branch")
+                }   
             }
-
         }
         stage("1: Compile"){
             when {
