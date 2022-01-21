@@ -10,14 +10,14 @@ pipeline {
             }
         }
         stage("0: validate"){
-            when { 
+            when {
                 expression { BRANCH_NAME ==~ /feature*/ }
-                }
+            }
             steps {
-                // Abort the build, skipping subsequent stages
+                echo 'Deploying'
                 sh "echo  'nombre invalido'"
-                 error("Invalid Name")
-            } 
+            }
+
         }
         stage("1: Compile"){
             when {
