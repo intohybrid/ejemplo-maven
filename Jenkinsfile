@@ -1,6 +1,13 @@
 pipeline {
     agent any
     stages {
+        stage("0: validate"){
+            sh "echo 'git branch'" + GIT_BRANCH
+            when { 
+            expression { GIT_BRANCH ==~ /feature\/[0-9]+\.[0-9]+\.[0-9]+/ }
+                sh "si cumple"
+        }
+        }
         stage("1: Compile"){
             when {
                 branch 'development' 
