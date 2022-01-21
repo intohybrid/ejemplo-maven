@@ -6,9 +6,6 @@ pipeline {
                 sh "echo 'git branch: '" + GIT_BRANCH
                 sh "echo 'branchname: '" + BRANCH_NAME
                 sh "echo 'targetEnv: '" + params.targetEnv
-
-                 sh "si cumple"
-                }
             }
         }
         stage("0: validate"){
