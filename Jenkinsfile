@@ -1,7 +1,3 @@
-import groovy.json.JsonSlurperClassic
-def jsonParse(def json) {
-    new groovy.json.JsonSlurperClassic().parseText(json)
-}
 pipeline {
     agent any
     environment{
@@ -70,7 +66,6 @@ pipeline {
         }
         stage("Download: Nexus"){
             steps {
-                //http://nexus3:10003/repository/devops-usach-nexus/com/devopsusach2020/DevOpsUsach2020/0.0.2/DevOpsUsach2020-0.0.2.jar
                 sh ' curl -X GET -u ${NEXUS_USER}:${NEXUS_PASSWORD} "http://nexus:8081/repository/devops-usach-nexus/com/devopsusach2020/DevOpsUsach2020/${VERSION}/DevOpsUsach2020-${VERSION}.jar" -O'
             }
         }
