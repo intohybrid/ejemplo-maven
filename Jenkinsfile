@@ -7,8 +7,8 @@ pipeline {
     environment{
         NEXUS_USER = credentials('usernexusadmin')
         NEXUS_PASSWORD = credentials('passnexusadmin')
-        VERSION = '0.0.6'
-        FINAL_VERSION = '0.0.6'
+        VERSION = '0.0.7'
+        FINAL_VERSION = '1.0.0'
     }
     stages {
         stage("Paso 1: Compliar"){
@@ -71,12 +71,12 @@ pipeline {
         stage("Download: Nexus"){
             steps {
                 //http://nexus3:10003/repository/devops-usach-nexus/com/devopsusach2020/DevOpsUsach2020/0.0.2/DevOpsUsach2020-0.0.2.jar
-                sh ' curl -X GET -u admin:admin "http://nexus:8081/repository/devops-usach-nexus/com/devopsusach2020/DevOpsUsach2020/${VERSION}/DevOpsUsach2020-${VERSION}.jar" -O'
+                sh ' curl -X GET -u ${NEXUS_USER}:${NEXUS_PASSWORD} "http://nexus:8081/repository/devops-usach-nexus/com/devopsusach2020/DevOpsUsach2020/${VERSION}/DevOpsUsach2020-${VERSION}.jar" -O'
             }
         }
         stage("Run: Levantar Springboot APP"){
             steps {
-                sh 'nohup bash java -jar DevOpsUsach2020-${VERSION}.jar & >/dev/null'
+                sh 'nohup java -jar DevOpsUsach2020-${VERSION}.jar & >/dev/null'
             }
         }
         stage("Curl: Dormir(Esperar 20sg) "){
@@ -99,7 +99,7 @@ pipeline {
                         artifactId: 'DevOpsUsach2020',
                         groupId: 'com.devopsusach2020',
                         packaging: 'jar',
-                        version: '1.0.0']
+                        version: '${FINAL_VERSION}']
                     ]
                 ]
             }
