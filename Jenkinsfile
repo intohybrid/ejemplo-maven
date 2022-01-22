@@ -62,7 +62,7 @@ pipeline {
                             artifactId: 'DevOpsUsach2020',
                             groupId: 'com.devopsusach2020',
                             packaging: 'jar',
-                            version: ${VERSION}]
+                            version: VERSION]
                         ]
                     ]
                 }
@@ -99,7 +99,7 @@ pipeline {
                         artifactId: 'DevOpsUsach2020',
                         groupId: 'com.devopsusach2020',
                         packaging: 'jar',
-                        version: ${FINAL_VERSION}]
+                        version: FINAL_VERSION]
                     ]
                 ]
             }
