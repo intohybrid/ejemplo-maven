@@ -3,7 +3,7 @@ pipeline {
     environment{
         NEXUS_USER = credentials('usernexusadmin')
         NEXUS_PASSWORD = credentials('passnexusadmin')
-        VERSION = '0.0.9'
+        VERSION = '0.0.10'
         FINAL_VERSION = '1.0.0'
     }
     stages {
@@ -45,22 +45,7 @@ pipeline {
             post {
                 //record the test results and archive the jar file.
                 success {
-                    nexusPublisher nexusInstanceId: 'nexus',
-                        nexusRepositoryId: 'devops-usach-nexus',
-                        packages: [
-                            [$class: 'MavenPackage',
-                                mavenAssetList: [
-                                    [classifier: '',
-                                    extension: '.jar',
-                                    filePath: 'build/DevOpsUsach2020-0.0.1.jar']
-                                ],
-                        mavenCoordinate: [
-                            artifactId: 'DevOpsUsach2020',
-                            groupId: 'com.devopsusach2020',
-                            packaging: 'jar',
-                            version: '0.0.9']
-                        ]
-                    ]
+                    nexusPublisher nexusInstanceId: 'nexus', nexusRepositoryId: 'devops-usach-nexus', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: '/var/jenkins_home/workspace/eline_feature_sonar-integracion3/build/DevOpsUsach2020-0.0.1.jar']], mavenCoordinate: [artifactId: 'DevOpsUsach2020', groupId: 'com.devopsusach2020', packaging: 'jar', version: '0.0.10']]]
                 }
             }
         }
@@ -74,7 +59,7 @@ pipeline {
                 sh 'nohup java -jar DevOpsUsach2020-${VERSION}.jar & >/dev/null'
             }
         }
-        stage("Curl: Dormir(Esperar 20sg) "){
+        stage("Curl: Dormir(Esperar 30sg) "){
             steps {
                sh "sleep 30 && curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
             }
