@@ -3,7 +3,7 @@ pipeline {
     environment{
         NEXUS_USER = credentials('usernexusadmin')
         NEXUS_PASSWORD = credentials('passnexusadmin')
-        VERSION = '0.0.7'
+        VERSION = '0.0.8'
         FINAL_VERSION = '1.0.0'
     }
     stages {
@@ -58,7 +58,7 @@ pipeline {
                             artifactId: 'DevOpsUsach2020',
                             groupId: 'com.devopsusach2020',
                             packaging: 'jar',
-                            version: VERSION]
+                            version: '0.0.8']
                         ]
                     ]
                 }
