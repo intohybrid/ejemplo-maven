@@ -39,19 +39,28 @@ pipeline {
                 withSonarQubeEnv('SonarQubeServer') {
                     sh "echo 'Calling sonar Service in another docker container!'"
                     // Run Maven on a Unix agent to execute Sonar.
-                    sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=githubfull'
+                    //sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=githubfull'
                 }
             }
             post {
                 //record the test results and archive the jar file.
                 success {
-                    nexusPublisher nexusInstanceId: 'nexus', nexusRepositoryId: 'devops-usach-nexus', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: 'build/DevOpsUsach2020-0.0.1.jar']], mavenCoordinate: [artifactId: 'DevOpsUsach2020', groupId: 'com.devopsusach2020', packaging: 'jar', version: '0.0.10']]]
+                    nexusPublisher nexusInstanceId: 'nexus', 
+                    nexusRepositoryId: 'devops-usach-nexus', 
+                    packages: [[$class: 'MavenPackage', 
+                        mavenAssetList: [[classifier: '', 
+                                        extension: '',
+                                        filePath: 'build/DevOpsUsach2020-0.0.1.jar']],
+                        mavenCoordinate: [artifactId: 'DevOpsUsach2020', 
+                                        groupId: 'com.devopsusach2020', 
+                                        packaging: 'jar', 
+                                        version: '0.0.10']]]
                 }
             }
         }
-        stage("Download: Nexus"){
-            steps {
-                sh ' curl -X GET -u ${NEXUS_USER}:${NEXUS_PASSWORD} "http://nexus:8081/repository/devops-usach-nexus/com/devopsusach2020/DevOpsUsach2020/${VERSION}/DevOpsUsach2020-${VERSION}.jar" -O'
+        stage("Download: Nexus"){                                   
+            steps {  curl -X GET -u ****:****                       
+                sh 'sleep 5 &&  curl -X GET -u ${NEXUS_USER}:${NEXUS_PASSWORD} http://nexus:8081/repository/devops-usach-nexus/com/devopsusach2020/DevOpsUsach2020/${VERSION}/DevOpsUsach2020-${VERSION}.jar" -O'
             }
         }
         stage("Run: Levantar Springboot APP"){
