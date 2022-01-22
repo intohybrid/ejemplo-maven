@@ -7,24 +7,24 @@ pipeline {
         FINAL_VERSION = '1.0.0'
     }
     stages {
-        stage("Paso 1: Compliar"){
-            steps {
-                script {
-                sh "echo 'Compile Code!'"
-                // Run Maven on a Unix agent.
-                sh "mvn clean compile -e"
-                }
-            }
-        }
-        stage("Paso 2: Testear"){
-            steps {
-                script {
-                sh "echo 'Test Code!'"
-                // Run Maven on a Unix agent.
-                sh "mvn clean test -e"
-                }
-            }
-        }
+        // stage("Paso 1: Compliar"){
+        //     steps {
+        //         script {
+        //         sh "echo 'Compile Code!'"
+        //         // Run Maven on a Unix agent.
+        //         sh "mvn clean compile -e"
+        //         }
+        //     }
+        // }
+        // stage("Paso 2: Testear"){
+        //     steps {
+        //         script {
+        //         sh "echo 'Test Code!'"
+        //         // Run Maven on a Unix agent.
+        //         sh "mvn clean test -e"
+        //         }
+        //     }
+        // }
         stage("Paso 3: Build .Jar"){
             steps {
                 script {
