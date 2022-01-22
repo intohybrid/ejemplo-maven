@@ -71,9 +71,6 @@ pipeline {
         }
         
         stage("1: Compile"){
-            when {
-                branch 'development' 
-            }
             //- Compilar el código con comando maven
             steps {
                 script {
@@ -84,9 +81,6 @@ pipeline {
             }
         }
         stage("2: Unit Test"){
-            when {
-                branch 'development' 
-            }
         //- Testear el código con comando maven
             steps {
                 script {
@@ -116,7 +110,8 @@ pipeline {
                     sh "echo 'SonarQube'"
                     sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=githubfull'
                 }
-            }post {
+            }
+            post {
                 //- Subir el artefacto creado al repositorio privado de Nexus.
                 //- Ejecutar este paso solo si los pasos anteriores se ejecutan de manera correcta.
                 success {
