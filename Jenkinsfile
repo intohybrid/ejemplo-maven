@@ -7,13 +7,6 @@ pipeline {
         FINAL_VERSION = '1.0.0'
     }
     stages {
-        stage("Paso 0 env"){
-            steps {
-                script {
-                    sh 'printenv'
-                }
-            }
-        }
         // stage("Paso 1: Compilar"){
         //     steps {
         //         script {
@@ -43,6 +36,9 @@ pipeline {
         }
         stage("Paso 4: Análisis SonarQube"){
             steps {
+                script {
+                    sh 'printenv'
+                }
                 withSonarQubeEnv('SonarQubeServer') {
                     sh "echo 'Calling sonar Service in another docker container!'"
                     // Run Maven on a Unix agent to execute Sonar.
@@ -90,7 +86,7 @@ pipeline {
                             mavenAssetList: [
                                 [classifier: '',
                                 extension: 'jar',
-                                filePath: 'DevOpsUsach2020-0.0.1.jar']
+                                filePath: 'build/DevOpsUsach2020-0.0.1.jar']
                             ],
                     mavenCoordinate: [
                         artifactId: 'DevOpsUsach2020',
