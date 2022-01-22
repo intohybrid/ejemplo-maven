@@ -7,7 +7,7 @@ pipeline {
         FINAL_VERSION = '1.0.0'
     }
     stages {
-        stage("Paso 3: Build .Jar"){
+        stage("Paso 0 env"){
             steps {
                 script {
                     sh 'printenv'
