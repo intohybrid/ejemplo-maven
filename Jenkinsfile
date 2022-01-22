@@ -39,7 +39,7 @@ pipeline {
             //Validar el tipo de rama a ejecutar (feature, develop o release)
             
             when {
-                anyOf {
+                allOf {
                     not { expression { BRANCH_NAME ==~ /feature\/.*/ } }
                     not { expression { BRANCH_NAME ==~ /develop\/.*/ } }
                     not { expression { BRANCH_NAME ==~ /release\/.*/ } }
