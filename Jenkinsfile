@@ -90,7 +90,7 @@ pipeline {
                             mavenAssetList: [
                                 [classifier: '',
                                 extension: 'jar',
-                                filePath: 'DevOpsUsach2020-1.0.0.jar']
+                                filePath: 'DevOpsUsach2020-0.0.1.jar']
                             ],
                     mavenCoordinate: [
                         artifactId: 'DevOpsUsach2020',
