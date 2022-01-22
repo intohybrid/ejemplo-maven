@@ -102,7 +102,7 @@ pipeline {
                 script {
                 sh "echo 'Build .Jar!'"
                 // Run Maven on a Unix agent.
-                //sh "mvn clean package -e"
+                sh "mvn clean package -e"
                 }
             }
         }
@@ -114,7 +114,7 @@ pipeline {
             steps {
                 withSonarQubeEnv('SonarQubeServer') {
                     sh "echo 'SonarQube'"
-                    //sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=githubfull'
+                    sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=githubfull'
                 }
             }post {
                 //- Subir el artefacto creado al repositorio privado de Nexus.
