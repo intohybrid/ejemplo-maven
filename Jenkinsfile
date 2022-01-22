@@ -3,7 +3,7 @@ pipeline {
     environment{
         NEXUS_USER = credentials('usernexusadmin')
         NEXUS_PASSWORD = credentials('passnexusadmin')
-        VERSION = '0.0.10'
+        VERSION = '0.0.14'
         FINAL_VERSION = '1.0.0'
     }
     stages {
@@ -54,19 +54,19 @@ pipeline {
                         mavenCoordinate: [artifactId: 'DevOpsUsach2020', 
                                         groupId: 'com.devopsusach2020', 
                                         packaging: 'jar', 
-                                        version: '0.0.10']]]
+                                        version: VERSION]]]
                 }
             }
         }
         stage("Download: Nexus"){                                   
             steps {                   
                 sh 'sleep 5 '
-                sh 'curl -X GET -u ${NEXUS_USER}:${NEXUS_PASSWORD} http://nexus:8081/repository/devops-usach-nexus/com/devopsusach2020/DevOpsUsach2020/${VERSION}/DevOpsUsach2020-${VERSION}.jar -O'
+                sh 'curl -X GET -u $NEXUS_USER:$NEXUS_PASSWORD http://nexus:8081/repository/devops-usach-nexus/com/devopsusach2020/DevOpsUsach2020/$VERSION/DevOpsUsach2020-$VERSION.jar -O'
             }
         }
         stage("Run: Levantar Springboot APP"){
             steps {
-                sh 'nohup java -jar DevOpsUsach2020-${VERSION}.jar & >/dev/null'
+                sh 'nohup java -jar DevOpsUsach2020-$VERSION.jar & >/dev/null'
             }
         }
         stage("Curl: Dormir(Esperar 30sg) "){
@@ -83,7 +83,7 @@ pipeline {
                             mavenAssetList: [
                                 [classifier: '',
                                 extension: 'jar',
-                                filePath: 'DevOpsUsach2020-${VERSION}.jar']
+                                filePath: 'DevOpsUsach2020-$VERSION.jar']
                             ],
                     mavenCoordinate: [
                         artifactId: 'DevOpsUsach2020',
