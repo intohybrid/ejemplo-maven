@@ -60,7 +60,8 @@ pipeline {
         }
         stage("Download: Nexus"){                                   
             steps {                   
-                sh 'sleep 5 &&  curl -X GET -u ${NEXUS_USER}:${NEXUS_PASSWORD} http://nexus:8081/repository/devops-usach-nexus/com/devopsusach2020/DevOpsUsach2020/${VERSION}/DevOpsUsach2020-${VERSION}.jar" -O'
+                sh 'sleep 5 '
+                sh 'curl -X GET -u ${NEXUS_USER}:${NEXUS_PASSWORD} http://nexus:8081/repository/devops-usach-nexus/com/devopsusach2020/DevOpsUsach2020/${VERSION}/DevOpsUsach2020-${VERSION}.jar -O'
             }
         }
         stage("Run: Levantar Springboot APP"){
