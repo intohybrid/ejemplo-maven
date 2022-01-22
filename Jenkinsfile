@@ -23,7 +23,7 @@ pipeline {
                           expression { BRANCH_NAME == 'master' }
                           expression { BRANCH_NAME == 'main' }
                 }
-                
+              
             }
             steps {
                 sh "echo  'Rama invalida'"
@@ -40,9 +40,9 @@ pipeline {
             
             when {
                 anyOf {
-                    expression { BRANCH_NAME ==~ /feature\/.*/ }
-                    expression { BRANCH_NAME ==~ /develop\/.*/ }
-                    expression { BRANCH_NAME ==~ /release\/.*/ }
+                    expression { BRANCH_NAME ==~ /feature.*/ }
+                    expression { BRANCH_NAME ==~ /develop.*/ }
+                    expression { BRANCH_NAME ==~ /release.*/ }
                 }
                 
             }
