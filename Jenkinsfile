@@ -45,7 +45,8 @@ pipeline {
                     // Run Maven on a Unix agent to execute Sonar.
                     sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=githubfull'
                 }
-            }post {
+            }
+            post {
                 //record the test results and archive the jar file.
                 success {
                     nexusPublisher nexusInstanceId: 'nexus',
