@@ -40,9 +40,9 @@ pipeline {
             
             when {
                 anyOf {
-                    expression { BRANCH_NAME ==~ /feature.*/ }
-                    expression { BRANCH_NAME ==~ /develop.*/ }
-                    expression { BRANCH_NAME ==~ /release.*/ }
+                    not { expression { BRANCH_NAME ==~ /feature\/.*/ } }
+                    not { expression { BRANCH_NAME ==~ /develop\/.*/ } }
+                    not { expression { BRANCH_NAME ==~ /release\/.*/ } }
                 }
                 
             }
