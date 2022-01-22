@@ -3,7 +3,7 @@ pipeline {
     environment{
         NEXUS_USER = credentials('usernexusadmin')
         NEXUS_PASSWORD = credentials('passnexusadmin')
-        VERSION = '0.0.8'
+        VERSION = '0.0.9'
         FINAL_VERSION = '1.0.0'
     }
     stages {
@@ -34,7 +34,7 @@ pipeline {
                 }
             }
         }
-        stage("Paso 4: Análisis SonarQube"){
+        stage("Paso 4: Análisis SonarQube : {nombreRepo}-{rama}-${BUILD_NUMBER}"){
             steps {
                 withSonarQubeEnv('SonarQubeServer') {
                     sh "echo 'Calling sonar Service in another docker container!'"
@@ -58,7 +58,7 @@ pipeline {
                             artifactId: 'DevOpsUsach2020',
                             groupId: 'com.devopsusach2020',
                             packaging: 'jar',
-                            version: '0.0.8']
+                            version: '0.0.9']
                         ]
                     ]
                 }
@@ -76,7 +76,7 @@ pipeline {
         }
         stage("Curl: Dormir(Esperar 20sg) "){
             steps {
-               sh "sleep 20 && curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
+               sh "sleep 30 && curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
             }
         }
         stage("Subir nueva Version"){
@@ -87,7 +87,7 @@ pipeline {
                         [$class: 'MavenPackage',
                             mavenAssetList: [
                                 [classifier: '',
-                                extension: '.jar',
+                                extension: 'jar',
                                 filePath: 'DevOpsUsach2020-${VERSION}.jar']
                             ],
                     mavenCoordinate: [
