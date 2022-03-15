@@ -56,7 +56,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8081/rest/mscovid/test?msg=testing",
+					"raw": "http://localhost:8081/rest/mscovid/estadoPais?pais=Chile",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -65,12 +65,12 @@
 					"path": [
 						"rest",
 						"mscovid",
-						"test"
+						"estadoPais"
 					],
 					"query": [
 						{
-							"key": "msg",
-							"value": "testing"
+							"key": "pais",
+							"value": "Chile"
 						}
 					]
 				}
