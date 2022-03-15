@@ -13,9 +13,9 @@ pipeline {
             }
         }
 
-        stage('Tutooooooo 20 segundos') {
+        stage('Tutooooooo 60 segundos') {
             steps {
-                sh 'sleep 20'
+                sh 'sleep 60'
             }
         }
 
